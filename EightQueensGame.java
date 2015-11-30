@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class EightQueensGame extends Board{
 	
 	// Arreglo de coordenadas de reinas
-	IntegerArray[] queens_coordinates;
+	public IntegerArray[] queens_coordinates;
 
 	/**
 	 * Constructor que crea una juego de Ocho Reinas.
@@ -42,7 +42,7 @@ public class EightQueensGame extends Board{
 	 * 
 	 * @version 1.0
 	 **/
-	public void putQueenInBoard (int[] coordinates, int queens_number) {
+	private void putQueenInBoard (int[] coordinates, int queens_number) {
 		super.boxes[coordinates[1]][coordinates[0]].piece = new Queen(true);
 		queens_coordinates[queens_number] = new IntegerArray(super.getIntArrayFromCoordinates(coordinates[1], coordinates[0]));
 	}
@@ -105,7 +105,7 @@ public class EightQueensGame extends Board{
 	 * 
 	 * @version 1.0
 	 **/
-	public boolean giveIfPlayerWon (ArrayList<IntegerArray> all_posible_movements) {
+	private boolean giveIfPlayerWon (ArrayList<IntegerArray> all_posible_movements) {
 		for (int i = 0; i < all_posible_movements.size(); i += 1) {
 			for (int j = 0; j < queens_coordinates.length; j += 1) {
 				if (super.areEqual2Coordinates(all_posible_movements.get(i).getIntArray(), queens_coordinates[j].getIntArray())) {

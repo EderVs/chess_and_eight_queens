@@ -14,7 +14,7 @@ public class ChessGame extends Board {
 	// Contiene a las coordenadas de las piezas de los jugadores exceptuando el Rey.
 	public ArrayList<IntegerArray> player1_pieces;
 	public ArrayList<IntegerArray> player2_pieces;
-	// Contiene a las piezas que ya fueron comidas por el oto jugador.
+	// Contiene a las piezas que ya fueron comidas por el otro jugador.
 	public ArrayList<Piece> player1_dead_pieces;
 	public ArrayList<Piece> player2_dead_pieces;
 	// Contiene las coordenas del Rey de cada jugador.
@@ -137,7 +137,7 @@ public class ChessGame extends Board {
 	 *
 	 * @version 1.0
 	 */
-	public boolean movePiece(int from_y, int from_x, int to_y, int to_x,
+	private boolean movePiece(int from_y, int from_x, int to_y, int to_x,
 		                    boolean color) {
 		Box generic_box = new Box();
 		boolean flag_king = false;
@@ -338,7 +338,7 @@ public class ChessGame extends Board {
 	 *
 	 * @version 1.0
 	 **/
-	public void printDeadPieces (ArrayList<Piece> list) {
+	private void printDeadPieces (ArrayList<Piece> list) {
 		for (int i = 0; i < list.size(); i += 1) {
 			System.out.print(" ");
 			list.get(i).printPiece();
@@ -354,7 +354,7 @@ public class ChessGame extends Board {
 	 *
 	 * @version 1.0
 	 **/
-	public void addElementByCoordinates(int y, int x, boolean color) {
+	private void addElementByCoordinates(int y, int x, boolean color) {
 		int[] coordinates = {y, x};
 		if (color) {
 			this.player1_pieces.add(new IntegerArray(coordinates));
@@ -372,7 +372,7 @@ public class ChessGame extends Board {
 	 *
 	 * @version 1.0
 	 **/
-	public void removeElementByCoordinates(int y, int x, boolean color) {
+	private void removeElementByCoordinates(int y, int x, boolean color) {
 		int[] coordinates = {y, x};
 		ArrayList<IntegerArray> current_all_coordinates;
 		if (color) {
@@ -397,7 +397,7 @@ public class ChessGame extends Board {
 	 *
 	 * @version 1.0
 	 **/
-	public boolean isKingInCheck (boolean color) {
+	private boolean isKingInCheck (boolean color) {
 		ArrayList<IntegerArray> all_posible_movements = this.giveAllPosibleMovements(!color);
 		int[] king_coordinates;
 		if (color) {
@@ -414,9 +414,9 @@ public class ChessGame extends Board {
 	}
 
 	/**
-	 * VDa todos los posibles movimientos de todas las piezas del color del jugador enviado.
+	 * Da todos los posibles movimientos de todas las piezas del color del jugador enviado.
 	 * 
-	 * @param color Color de jugador en turno.
+	 * @param color Color de jugador que sacaran todos los posibles movimientos.
 	 *
 	 * @return lista de IntegerArray de todos las coordenadas de todos los posibles movimientos.
 	 *

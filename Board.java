@@ -26,8 +26,22 @@ public abstract class Board {
 		this.boxes = boxes;
 	}
 
+	/**
+	 * Imprime el tablero de juego.
+	 *
+	 * @version 1.0
+	 */
 	public abstract void printBoard();
 
+	/**
+	 * Da todos los posibles movimientos de todas las piezas del color del jugador enviado.
+	 * 
+	 * @param color Color de jugador que sacaran todos los posibles movimientos.
+	 *
+	 * @return lista de IntegerArray de todos las coordenadas de todos los posibles movimientos.
+	 *
+	 * @version 1.0
+	 **/
 	public abstract ArrayList<IntegerArray> giveAllPosibleMovements(boolean color);
 
 	/**
@@ -35,7 +49,7 @@ public abstract class Board {
 	 * 
 	 * @param coordinate Coordenadas escritas como 'A-1'
 	 *
-	 * @return Arreglo de 2 ints que contienes las coordenadas convertidas a int.
+	 * @return Arreglo de 2 ints que contiene las coordenadas convertidas a int.
 	 *
 	 * @version 1.0
 	 **/
@@ -51,6 +65,16 @@ public abstract class Board {
 		return coordinates;
 	}
 
+	/**
+	 * Da un arreglo de ints a partir de dos coordenadas.
+	 * 
+	 * @param y Coordenada 'y'.
+	 * @param x Coordenada 'x'.
+	 *
+	 * @return Un int[] con las coordenadas.
+	 *
+	 * @version 1.0
+	 **/
 	public int[] getIntArrayFromCoordinates (int y, int x) {
 		int[] coordinates = new int[2];	
 		coordinates[0] = y;
@@ -90,8 +114,8 @@ public abstract class Board {
 	/**
 	 * Verifica si son iguales dos coordenadas enviadas.
 	 * 
-	 * @param crd1 arreglo de ints de las primeras coordenadas.
-	 * @param crd2 arreglo de ints de las segundas coordenadas.
+	 * @param crd1 Arreglo de ints de las primeras coordenadas.
+	 * @param crd2 Arreglo de ints de las segundas coordenadas.
 	 *
 	 * @return boolean de si el son iguales las coordenadas.
 	 *

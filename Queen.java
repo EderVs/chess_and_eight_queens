@@ -48,7 +48,7 @@ class Queen extends Piece {
 	*
 	* @version 1.0
 	**/
-	public ArrayList getPosibleMovements (int y, int x, EightQueensGame board) {
+	public ArrayList<IntegerArray> getPosibleMovements (int y, int x, EightQueensGame board) {
 		ArrayList<IntegerArray> posible_movements = new 
 													<IntegerArray>ArrayList();
 		Bishop bishop = new Bishop(color);
