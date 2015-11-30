@@ -1,12 +1,35 @@
+/**
+ * Clase King que representa una pieza de Rey.
+ * 
+ * @author Eduardo Eder Vazquez Salcedo (edervs)
+ * @date 28 de Noviembre del 2015
+ * @version 1.0
+ *
+ **/
 import java.util.ArrayList;
 public class King extends Piece{
 	
+	/**
+	 * Constructor que crea una King con color.
+	 * 
+	 * @param color Color de la King.
+	 *
+	 * @version 1.0
+	 **/
 	public King (boolean color) {
 		super(color);
 	}
 
-	public ArrayList<IntegerArray> getPosibleMovements (int y, int x,
-													 Board board) {
+	/**
+	* Obtiene los posibles movimientos de la pieza en el tablero.
+	*
+	* @param y Coordenada 'y' de donde se encuentra la pieza.
+	* @param x Coordenada 'x' de donde se encuentra la pieza.
+	* @param board Tablero del juego.
+	*
+	* @version 1.0
+	**/
+	public ArrayList<IntegerArray> getPosibleMovements (int y, int x, ChessGame board) {
 
 		ArrayList<IntegerArray> posible_movements = new
 		                            				<IntegerArray>ArrayList();
@@ -30,6 +53,11 @@ public class King extends Piece{
 		return posible_movements;
 	}
 
+	/**
+	* Imprime la pieza.
+	*
+	* @version 1.0
+	**/
 	public void printPiece () {
 		if (this.color) {
 			System.out.print("♛");
