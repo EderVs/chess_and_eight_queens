@@ -1,37 +1,71 @@
+/**
+ * Clase EightQueensGame que representa una el juego de Ocho Reinas.
+ * 
+ * @author Eduardo Eder Vazquez Salcedo (edervs)
+ * @date 29 de Noviembre del 2015
+ * @version 1.0
+ * @see <a href = "https://es.wikipedia.org/wiki/Problema_de_las_ocho_reinas"/> para más información sobre el juego.
+ *
+ **/
 import java.util.Scanner;
 import java.util.ArrayList;
 public class EightQueensGame extends Board{
 	
-	Queen[] queens;
+	// Arreglo de coordenadas de reinas
 	IntegerArray[] queens_coordinates;
 
+	/**
+	 * Constructor que crea una juego de Ocho Reinas.
+	 * 
+	 * @version 1.0
+	 **/
 	public EightQueensGame () {
+		// Llama al constructor padre para crear las casillas.
 		super(new Box[8][8]);
-		queens = new Queen[8];
+		// Inicializa valores.
 		queens_coordinates = new IntegerArray[8];
 
 		for (int i = 0; i < 8; i += 1) {
-			queens[i] = new Queen(true);
 			for (int j = 0; j < 8; j += 1) {
+				// Crea cada casilla vacia.
 				super.boxes[i][j] = new Box();
 			}
 		}
 	}
 
+
+	/**
+	 * Pone una reina en el tablero.
+	 * 
+	 * @param coordinates Coordenadas donde se pondra.
+	 * @param queens_number Numero de la reina que se creara.
+	 * 
+	 * @version 1.0
+	 **/
 	public void putQueenInBoard (int[] coordinates, int queens_number) {
 		super.boxes[coordinates[1]][coordinates[0]].piece = new Queen(true);
 		queens_coordinates[queens_number] = new IntegerArray(super.getIntArrayFromCoordinates(coordinates[1], coordinates[0]));
 	}
 
+	/**
+	 * Inicia el juego de Ocho Reinas.
+	 * 
+	 * @version 1.0
+	 **/
 	public void startGame () {
 		Scanner scanner = new Scanner(System.in);
+		// Crea una Casilla generica.
 		Box generic_box = new Box();
+		// Coordenadas en formato String
 		String to_string;
+		// Coordenadas en formato int.
 		int to_x, to_y;
+		// Coordenadas para utilizar.
 		int[] coordinates;
 		System.out.println();
 		System.out.println("============ Bienvenido al juego de Ocho Reinas de Eder! ============\n\n");
 		for (int i = 0; i < 8; i += 1) {
+			// Imprime el tablero.
 			this.printBoard();
 			System.out.println();
 			do {
@@ -43,15 +77,18 @@ public class EightQueensGame extends Board{
 				coordinates = super.giveCoordinates(to_string);
 				to_x = coordinates[0];
 				to_y = coordinates[1];
-				// Valida si se puede poner una reina en las coordenadas que se dio.
+				// Valida si se puede poner una Reina en las coordenadas que se dio.
 				if (!generic_box.isValidBoxToPutPiece(to_y, to_x, this)) {
 					System.out.println("Casilla no valida para poner la pieza.");
 				}
+			// Valida si se puede poner una Reina en las coordenadas que se dio.	
 			} while (!generic_box.isValidBoxToPutPiece(to_y, to_x, this));
+			// Pone la Reina en la coordenada que ya se valido con su respectio numero de Reina.
 			this.putQueenInBoard(coordinates, i);
 		}
 		this.printBoard();
 		System.out.println("\n");
+		// Dice si el jugador gano o perdio.
 		if (giveIfPlayerWon(this.giveAllPosibleMovements(true))) {
 			System.out.println("------ Has Ganado! -----");
 		} else {
@@ -59,6 +96,15 @@ public class EightQueensGame extends Board{
 		}
 	}
 
+	/**
+	 * Verifica si se gano o perdio la partida.
+	 * 
+	 * @param all_posible_movements Todos los posibles movimientos.
+	 * 
+	 * @return boolean de si se gano o perdio.
+	 * 
+	 * @version 1.0
+	 **/
 	public boolean giveIfPlayerWon (ArrayList<IntegerArray> all_posible_movements) {
 		for (int i = 0; i < all_posible_movements.size(); i += 1) {
 			for (int j = 0; j < queens_coordinates.length; j += 1) {
@@ -70,6 +116,15 @@ public class EightQueensGame extends Board{
 		return true;
 	}
 
+	/**
+	 * Da todos los posibles movimientos de las Reinas.
+	 * 
+	 * @param color Color de las reinas(true).
+	 * 
+	 * @return Todos los posibles movimientos en tipo ArrayList de IntegerArray.
+	 * 
+	 * @version 1.0
+	 **/
 	public ArrayList<IntegerArray> giveAllPosibleMovements (boolean color) {
 		ArrayList<IntegerArray> posible_movements = new ArrayList<IntegerArray>();
 		int[] coordinates;
@@ -83,24 +138,10 @@ public class EightQueensGame extends Board{
 	}
 
 	/**
-	 * Imprime una lista de IntegerArrays para usos de desarrollo.
+	 * Imprime el tablero.
 	 * 
-	 * @param list lista de IntegerArrays.
-	 *
 	 * @version 1.0
 	 **/
-	public void printArrayListIntegerArray (IntegerArray[] array) {
-		for (int i = 0; i < array.length; i += 1) {
-			System.out.println("y: " + array[i].getIntArray()[0] + " x: " + array[i].getIntArray()[1]);
-		}
-	}
-
-	public void printArrayListIntegerArray (ArrayList<IntegerArray> array) {
-		for (int i = 0; i < array.size(); i += 1) {
-			System.out.println("y: " + array.get(i).getIntArray()[0] + " x: " + array.get(i).getIntArray()[1]);
-		}
-	}
-
 	public void printBoard() {
 		char letter;
 		System.out.println();

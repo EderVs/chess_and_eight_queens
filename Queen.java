@@ -2,7 +2,7 @@
  * Clase Queen que representa una pieza de Reina.
  * 
  * @author Eduardo Eder Vazquez Salcedo (edervs)
- * @date 28 de Noviembre del 2015
+ * @date 29 de Noviembre del 2015
  * @version 2
  *
  **/

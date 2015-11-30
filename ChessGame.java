@@ -1,5 +1,4 @@
 /**
- * <p>Proyecto final ICC: Ajedrez</p>
  * 
  * Clase ChessGame que representa el juego de ajedrez.
  * 
