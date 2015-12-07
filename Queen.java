@@ -6,8 +6,9 @@
  * @version 2
  *
  **/
+import java.io.*;
 import java.util.ArrayList;
-class Queen extends Piece {
+class Queen extends Piece implements Serializable{
 
 	/**
 	 * Constructor que crea una Reina con color.

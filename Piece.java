@@ -6,8 +6,9 @@
  * @version 1.0
  *
  **/
+import java.io.*;
 import java.util.ArrayList;
-public abstract class Piece {
+public abstract class Piece implements Serializable{
 	
 	// Color de la pieza que es representado por un boolean.
 	// Cuando es true entonces el color es blanco, en cambio el color es negro.

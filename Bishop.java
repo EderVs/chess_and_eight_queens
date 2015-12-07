@@ -7,7 +7,8 @@
  *
  **/
 import java.util.ArrayList;
-class Bishop extends Piece {
+import java.io.*;
+class Bishop extends Piece implements Serializable{
 	
 	/**
 	 * Constructor que crea una Alfil con color.

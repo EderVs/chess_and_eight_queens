@@ -6,7 +6,8 @@
  * @version 1.0
  *
  **/
-public class IntegerArray {
+import java.io.*;
+public class IntegerArray implements Serializable{
 	private int[] int_array;
 
 	/**

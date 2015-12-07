@@ -6,8 +6,9 @@
  * @version 1.0
  *
  **/
+import java.io.*;
 import java.util.ArrayList;
-class Knight extends Piece {
+class Knight extends Piece implements Serializable{
 	
 	/**
 	 * Constructor que crea una Caballo con color.

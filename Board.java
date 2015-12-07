@@ -10,7 +10,8 @@
  *
  **/
 import java.util.ArrayList;
-public abstract class Board {
+import java.io.*;
+public abstract class Board implements Serializable{
 
 	// Contiene las casillas de todo el tablero.
 	public Box[][] boxes;
@@ -95,7 +96,7 @@ public abstract class Board {
 	public int changeLetterToNumber (char letter, boolean flag) {
 		if (flag) {
 			// Cambio de letra a int
-			if (Character.getNumericValue(letter) >= 10 && Character.getNumericValue(letter) <= 18) {
+			if (Character.getNumericValue(letter) >= 10 && Character.getNumericValue(letter) <= 19) {
 				return Character.getNumericValue(letter) - 10;
 			}
 			return -1;

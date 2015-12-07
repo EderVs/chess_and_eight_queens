@@ -10,7 +10,8 @@
  **/
 import java.util.ArrayList;
 import java.util.Scanner;
-public class ChessGame extends Board {
+import java.io.*;
+public class ChessGame extends Board implements Serializable {
 	// Contiene a las coordenadas de las piezas de los jugadores exceptuando el Rey.
 	public ArrayList<IntegerArray> player1_pieces;
 	public ArrayList<IntegerArray> player2_pieces;
@@ -20,27 +21,6 @@ public class ChessGame extends Board {
 	// Contiene las coordenas del Rey de cada jugador.
 	public int[] player1_king;
 	public int[] player2_king;
-	
-	/**
-	 * Constructor que crea un tablero a partir de la matriz de casillas que le es enviado como parámetro.
-	 * 
-	 * @param boxes Matriz de casillas con las que será generado el tablero.
-	 * @param player1_pieces Lista de coordenadas donde están las piezas del jugador 1.
-	 * @param player2_pieces Lista de coordenadas donde están las piezas del jugador 2.
-	 * @param player1_dead_pieces Lista de piezas ya comidas por el usuario jugador 1.
-	 * @param player2_dead_pieces Lista de piezas ya comidas por el usuario jugador 2.
-	 *
-	 * @version 0.0
-	 **/
-	public ChessGame (Box[][] boxes, ArrayList<IntegerArray> player1_pieces, ArrayList<IntegerArray> player2_pieces,
-		          ArrayList<Piece> player1_dead_pieces, ArrayList<Piece> player2_dead_pieces,
-		          int[] player1_king, int[] player2_king) {
-		super(boxes);
-		player1_dead_pieces = new <Piece>ArrayList();
-		player2_dead_pieces = new <Piece>ArrayList();
-		player1_pieces = new <IntegerArray>ArrayList();
-		player2_pieces = new <IntegerArray>ArrayList();
-	}
 
 	/**
 	 * Constructor que crea un toda la simulacion para el juego con valores
@@ -255,7 +235,7 @@ public class ChessGame extends Board {
 		Scanner scanner = new Scanner(System.in);
 		// color que contiene el turno del jugador, si es true es turno del jugador 1, si no viceversa.
 		// change_player que tiene un booleano para ver si se tiene que cambiar de jugador o si no repetir el proceso.
-		boolean color = true, change_player;
+		boolean color = true, change_player, save_game;
 		// Strings de las coordenadas de desde y a donde se quiere mover una pieza.
 		String from_string, to_string;
 		// ints de las coordenadas de desde y a donde se quiere mover una pieza.
@@ -266,6 +246,7 @@ public class ChessGame extends Board {
 		System.out.println("======== Bienvenido al juego de Ajedrez de Eder! ========");
 		do {
 			change_player = true;
+			save_game = false;
 			for (int i = 1; i < 3; i += 1) {
 				System.out.println();
 			}
@@ -282,7 +263,11 @@ public class ChessGame extends Board {
 				System.out.println("Turno del jugador 2");
 			}
 			do {
-				System.out.print("Coordenada de pieza a mover (ej. A-1): ");
+				if (color) {
+					System.out.print("Coordenada de pieza a mover (ej. A-1) o J-J para guardar la partida: ");
+				} else {
+					System.out.println("Coordenada de pieza a mover (ej. A-1): ");
+				}
 				// Recibe las coordenadas de cual pieza se quiere mover.
 				from_string = scanner.nextLine();
 				coordinates = new int[2];
@@ -292,26 +277,37 @@ public class ChessGame extends Board {
 				from_y = coordinates[1];
 				// Valida si se puede mover una pieza en las coordenadas que se dio
 				if (!generic_box.isValidBoxToMove(from_y, from_x, color, this)) {
-					System.out.println("Pieza no valida para mover.");
+					if (!color && from_x != 9) {
+						System.out.println("Pieza no valida para mover.");
+					}
 				}
-			} while (!generic_box.isValidBoxToMove(from_y, from_x, color, this));
-			do {
-				// Recibe las coordenadas de hacia donde se quiere mover la pieza.
-				System.out.println();
-				System.out.print("Coordenada a mover pieza (ej. 'A-2') o 'I-I' para escoger otra pieza: ");
-				to_string = scanner.nextLine();
-				coordinates = new int[2];
-				// Convierte a arreglo de ints
-				coordinates = super.giveCoordinates(to_string);
-				to_x = coordinates[0];
-				to_y = coordinates[1];
-				// Valida si decidio cambiar a otra pieza para que no vaya el siguiente jugador.
-				if (to_x == 8 || to_y == 8) {
-					change_player = false;
+				if ((from_x == 9 || from_y == 9) && color) {
+					save_game = true;
+					this.saveGame();
 					break;
 				}
-				// Valida si se puede mover hacia esa coordenada.
-			} while (!this.movePiece(from_y, from_x, to_y, to_x, color));
+			} while (!generic_box.isValidBoxToMove(from_y, from_x, color, this));
+			if (!(save_game)) {
+				do {
+					// Recibe las coordenadas de hacia donde se quiere mover la pieza.
+					System.out.println();
+					System.out.print("Coordenada a mover pieza (ej. 'A-2') o 'I-I' para escoger otra pieza: ");
+					to_string = scanner.nextLine();
+					coordinates = new int[2];
+					// Convierte a arreglo de ints
+					coordinates = super.giveCoordinates(to_string);
+					to_x = coordinates[0];
+					to_y = coordinates[1];
+					// Valida si decidio cambiar a otra pieza para que no vaya el siguiente jugador.
+					if (to_x == 8 || to_y == 8) {
+						change_player = false;
+						break;
+					}
+					// Valida si se puede mover hacia esa coordenada.
+				} while (!this.movePiece(from_y, from_x, to_y, to_x, color));
+			} else {
+				break;
+			}
 			// Cambia el turno.
 			if (change_player) {
 				color = !color;
@@ -321,14 +317,17 @@ public class ChessGame extends Board {
 
 		//Imprime el jugador ganador y el perdedor.
 		System.out.println("\n\n");
-		if (!color) {
-			System.out.println(" --------- Ganó el jugador 1! --------- \n\n\n");
-			System.out.println(" --------- Perdedor jugador 2 :( --------- \n\n");
+		if (save_game) {
+			System.out.println(" --------- Juego guardado --------- \n\n\n");
 		} else {
-			System.out.println(" --------- Ganó el jugador 2! --------- \n\n\n");
-			System.out.println(" --------- Perdedor jugador 1 :( --------- \n\n");
+			if (!color) {
+				System.out.println(" --------- Ganó el jugador 1! --------- \n\n\n");
+				System.out.println(" --------- Perdedor jugador 2 :( --------- \n\n");
+			} else {
+				System.out.println(" --------- Ganó el jugador 2! --------- \n\n\n");
+				System.out.println(" --------- Perdedor jugador 1 :( --------- \n\n");
+			}
 		}
-
 	}
 
 	/**
@@ -441,5 +440,21 @@ public class ChessGame extends Board {
 			}
 		}
 		return posible_movements;
+	}
+
+	/**
+	 * Guarda el estado de la partida
+	 * 
+	 * @version 1.0
+	 **/
+	public void saveGame () {
+		try {
+			FileOutputStream fos = new FileOutputStream("game.bin");
+			ObjectOutputStream out = new ObjectOutputStream(fos);
+			out.writeObject(this);
+			out.close();
+		} catch (IOException e) {
+			System.out.println(e);	
+		}
 	}
 }

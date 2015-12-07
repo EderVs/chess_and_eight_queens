@@ -6,7 +6,8 @@
  * @version 1.1
  *
  **/
-public class Box {
+import java.io.*;
+public class Box implements Serializable{
 	// Pieza dentro de la casilla, si no hay entonces sera null
 	public Piece piece;
 

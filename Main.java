@@ -9,6 +9,7 @@
  *
  **/
 import java.util.Scanner;
+import java.io.*;
 public class Main {
 
 	/**
@@ -26,6 +27,44 @@ public class Main {
 			return Character.getNumericValue(letter) - 1;
 		}
 		return -1;
+	}
+
+	/**
+	 * Ver si hay una partida guardada.
+	 * 
+	 * @return boolean diciendo si hay una partida guardada.
+	 * 
+	 * @version 1.0
+	 **/
+	public static boolean checkIfThereIsChessLoadedGame () throws Exception{
+		ChessGame game;
+		boolean answer = false;
+		try {
+			FileInputStream fis = new FileInputStream("game.bin");
+			ObjectInputStream in = new ObjectInputStream(fis);
+			answer = true;
+		} catch (IOException e) {
+		}
+		return answer;
+	}
+
+	/**
+	 * Carga el estado ultimo estado de la partida guardada.
+	 * 
+	 * @return Juego que es cargado.
+	 * 
+	 * @version 1.0
+	 **/
+	public static ChessGame loadChessGame () throws Exception{
+		ChessGame game = new ChessGame();
+		try {
+			FileInputStream fis = new FileInputStream("game.bin");
+			ObjectInputStream in = new ObjectInputStream(fis);
+			game = (ChessGame)in.readObject();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+		return game;
 	}
 
 	public static void main(String[] args) {
@@ -54,7 +93,22 @@ public class Main {
 			} while (validateOption(option) == -1);
 			if (validateOption(option) + 1 == 1) {
 				// Cargando juego de Ajedrez.
-				chess = new ChessGame();
+				try {
+					if (checkIfThereIsChessLoadedGame()) {
+						System.out.print("Hay un juego guardado, quieres cargarlo?(s/n): ");
+						option = scanner.nextLine().charAt(0);
+						if (option == 's') {
+							chess = loadChessGame();
+						} else {
+							chess = new ChessGame();
+						}
+					} else {
+						chess = new ChessGame();
+					}
+				} catch (Exception e) {
+					chess = new ChessGame();
+					System.out.println(e);
+				}
 				chess.startGame();
 			} else if (validateOption(option) + 1 == 2) {
 				// Cargando juego de Ocho Reinas.

@@ -7,7 +7,8 @@
  *
  **/
 import java.util.ArrayList;
-class Pawn extends Piece {
+import java.io.*;
+class Pawn extends Piece implements Serializable{
 	
 	/**
 	 * Constructor que crea una Peon con color.

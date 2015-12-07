@@ -6,8 +6,9 @@
  * @version 1.0
  *
  **/
+import java.io.*;
 import java.util.ArrayList;
-class Rook extends Piece {
+class Rook extends Piece implements Serializable{
 	
 	/**
 	 * Constructor que crea una Rook con color.

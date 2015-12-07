@@ -9,7 +9,8 @@
  **/
 import java.util.Scanner;
 import java.util.ArrayList;
-public class EightQueensGame extends Board{
+import java.io.*;
+public class EightQueensGame extends Board implements Serializable{
 	
 	// Arreglo de coordenadas de reinas
 	public IntegerArray[] queens_coordinates;
